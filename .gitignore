@@ -76,4 +76,4 @@ crashlytics-build.properties
 /modules/training/runs/
 /modules/training/models/
 *__pychache__
-*__ipynb_checkpoints__
+*.ipynb_checkpoints
