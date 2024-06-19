@@ -13,7 +13,6 @@ public class UDPReceive : MonoBehaviour
     UdpClient client;
     public int port = 5052;
     public bool startReceiving = true;
-    public bool printToConsole = true;
     public string data;
 
     // Start is called before the first frame update
@@ -36,9 +35,6 @@ public class UDPReceive : MonoBehaviour
                 IPEndPoint anyIP = new IPEndPoint(IPAddress.Any, 0);
                 byte[] dataByte = client.Receive(ref anyIP);
                 data = Encoding.UTF8.GetString(dataByte);
-                
-                if (printToConsole)
-                    print(data);
             }
             catch (Exception err)
             {

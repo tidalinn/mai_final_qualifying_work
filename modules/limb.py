@@ -20,31 +20,29 @@ class Limb:
         self.is_right = is_right
         self.is_captured = False
         self.detections = []
+        self.keypoints = []
         self.track_history = defaultdict(lambda: [])
     
 
     def detect(self, detection):
-        self.detections.append(detection)
+        if len(self.detections) == 0:
+            self.detections.append(detection)
     
 
-    def get_detection(self):
-        if len(self.detections) > 0:
-            self.detections = [sorted(self.detections, key=lambda x: x[5], reverse=True)[0]]
-            return self.detections[0]
-        else:
-            return self.detections
-
-    
     def track(self, x, y, track_id):
         track = self.track_history[track_id]
         track.append((float(x), float(y)))
         self.is_captured = True
 
-        if len(track) > 30:
+        if len(track) > 10:
             track.pop(0)
             self.is_captured = False
             self.detections = []
     
     
-    def estimate_keypoints(self):
-        pass
+    def hand_keypoints(self, frame, model_keypoints, predict_method, model_type):
+        self.keypoints = predict_method(frame, model_type, model_keypoints)
+
+
+    def foot_keypoints(self, point_bottom, point_top):
+        self.keypoints = [point_bottom, point_top]
